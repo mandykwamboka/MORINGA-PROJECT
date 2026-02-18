@@ -1,62 +1,59 @@
-OVERVIEW
-For my capstone project, I decided to use into Go (Golang). I wanted to build a toolkit that demonstrates how to handle large-scale data processing without the overhead of heavy frameworks. Using a dataset of over 9,000 movies, I built this tool to show how Go's standard library can efficiently read, parse, and search through data.
+
+
+Overview
+
+For my capstone project, I built a high-performance movie search application using Go (Golang). While I initially started with a terminal-based tool, I iterated on the design to create a Web-based Graphical User Interface (GUI). This application demonstrates how Go can handle large-scale data processing (over 9,000 records) and serve it instantly to a browser using only the standard library.
 
 I chose Go for this project because:
 
-It's incredibly fast: I wanted to see how it handled thousands of rows compared to interpreted languages.
+Speed: It processes thousands of rows and serves web requests with nearly zero latency.
 
-Type Safety: The static typing helped me catch bugs during development rather than at runtime.
+The Standard Library: I built the entire web server using the net/http package without needing heavy external frameworks.
 
-Simplicity: The syntax is clean, making it a perfect "bridge" language for someone coming from Python.
+Type Safety: Go's strict typing ensured that the movie data was validated before ever reaching the user's screen.
 
-System Requirements
-To run my project, you’ll need:
-
-Operating System: macOS, Windows, or Linux.
+ System Requirements
+ 
+To run this project, you’ll need:
 
 Go Compiler: Version 1.18 or higher.
 
-Text Editor: I used VS Code, but any editor works.
+Web Browser: Chrome, Firefox, Safari, or Edge.
 
-Dataset: A movies.csv file 
+Dataset: The movies.csv file .
 
 How to Set This Up
-Install Go: I downloaded mine from golang.org.
-
-Clone my Repository:
+Clone the Repository:
 
 Bash
 git clone https://github.com/mandykwamboka/MORINGA-PROJECT.git
 cd MORINGA-PROJECT
 
-Drop your movies.csv file.
 
-Run the Code:
+Launch the Web Server:
 
 Bash
 go run main.go
+Open the Interface: Once the terminal says "Server started," open your browser and go to:
+http://localhost:8080
 
-   How the Code Functions
+ How the Code Functions (The Backend)
+The application architecture is split into a professional data pipeline:
 
+Data Ingestion: The program uses the os and encoding/csv packages to read the dataset. I implemented LazyQuotes = true to prevent crashes caused by unconventional punctuation in movie titles.
 
-File Initialization: The program opens the movies.csv file using Go's os package.
+Memory Management: Each movie is stored in a Slice of Structs, allowing the search engine to filter thousands of records in milliseconds.
 
-Data Parsing: We use the encoding/csv library. By setting reader.LazyQuotes = true, the code is able to handle movie titles that contain commas or unconventional quotation marks without crashing.
+Web Server Logic: I used Go's net/http package to create a local server. The html/template package is used to dynamically inject search results into a clean, modern HTML frontend.
 
-Data Structuring: Each row from the CSV is converted into a Movie struct. This allows us to access data using logical names like Movie.Title and Movie.Genres instead of just array indices.
+How to Navigate the Web GUI
+Instead of a text-only prompt, you now have a visual dashboard:
 
-Memory Storage: All movie objects are stored in a Slice (a dynamic array in Go), which allows for lightning-fast searching through the 9,000+ records.
+The Dashboard: When you load the page, you'll see a clean search bar.
 
-⌨️ How to Navigate the Output
+Instant Search: Enter a Title (e.g., Matrix) or a Genre (e.g., Sci-Fi) and click "Search."
 
-Once you run the program using go run main.go, follow these steps to interact with the data:
+Dynamic Results: The app will instantly generate a table showing the Movie ID, Title, and Genres.
 
-Initialization: The terminal will display a success message:  Loaded 9742 movies into memory.
+Reset: To start over, simply clear the search bar or refresh the page.
 
-Searching by Title: Type a movie name (e.g., Toy Story). The program will perform a case-insensitive search and return all matches with their IDs.
-
-Searching by Genre: You can also type a specific genre (e.g., Adventure or Comedy). The tool will filter the list and show you every movie categorized under that genre.
-
-Combined Search: If you type a keyword like 1995, it will show you all movies with that year in the title.
-
-Exiting: To close the program, simply type exit at the prompt.
